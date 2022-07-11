@@ -1,0 +1,52 @@
+org: asencme
+app: serverless-demo
+service: serverless-demo
+frameworkVersion: '3'
+
+plugins:
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+  stage: ${opt:stage, 'dev'}
+  timeout: 10
+  tracing:
+    lambda: true
+  httpApi:
+    cors: true
+
+functions:
+  claims:
+    handler: claims.handler
+    iamRoleStatementsName: rds-access
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - rds-db:connect
+        Resource: "*"
+    vpc:
+      securityGroupIds:
+        - sg-08eb8ec2a3f5f2495
+      subnetIds:
+        - subnet-059f666f283ba2cc4
+        - subnet-0422b4da0becf0d8c
+        - subnet-0b83482e531670da8
+    events:
+      - httpApi:
+          path: /claims
+          method: ANY
+      - httpApi:
+          path: /claims/{proxy+}
+          method: ANY
+
+  general:
+    handler: general.handler
+    events:
+      - httpApi:
+          path: /general
+          method: ANY
+      - httpApi:
+          path: /general/{proxy+}
+          method: ANY
