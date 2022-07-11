@@ -2,14 +2,14 @@ const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
 
-app.get("/", (req, res, next) => {
+app.get("/all", (req, res, next) => {
   return res.status(200).json({
     message: "Get all claims",
   });
 });
 
 // get one claim
-app.get("/:id", (req, res, next) => {
+app.get("/one/:id", (req, res, next) => {
   return res.status(200).json({
     message: `Get one claim with ID ${req.params.id}`,
   });
