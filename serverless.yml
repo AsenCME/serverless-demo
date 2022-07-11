@@ -34,19 +34,9 @@ functions:
         - subnet-0422b4da0becf0d8c
         - subnet-0b83482e531670da8
     events:
-      - httpApi:
-          path: /claims
-          method: ANY
-      - httpApi:
-          path: /claims/{proxy+}
-          method: ANY
+      - httpApi: "*"
 
   general:
     handler: general.handler
     events:
-      - httpApi:
-          path: /general
-          method: ANY
-      - httpApi:
-          path: /general/{proxy+}
-          method: ANY
+      - httpApi: "*"
